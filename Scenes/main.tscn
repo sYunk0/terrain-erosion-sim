@@ -1,8 +1,31 @@
-[gd_scene load_steps=3 format=3 uid="uid://c6t1bkr0qvwlf"]
+[gd_scene load_steps=8 format=3 uid="uid://c6t1bkr0qvwlf"]
 
+[ext_resource type="Shader" uid="uid://deafph34i25jj" path="res://shaders/Terrain_height.gdshader" id="1_8gbba"]
+[ext_resource type="Script" uid="uid://da6qkcghap6wm" path="res://Scripts/erosion_sim.gd" id="1_bo1nx"]
 [ext_resource type="Script" uid="uid://dl58674g6u6fi" path="res://Scripts/camera_movement.gd" id="1_jjgbg"]
+[ext_resource type="Shader" uid="uid://da7ubx7ni71h" path="res://shaders/Terrain_water.gdshader" id="1_jjvhh"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_kry3j"]
+render_priority = 0
+shader = ExtResource("1_jjvhh")
+shader_parameter/height_map_size = Vector2(0, 0)
+shader_parameter/height_map_scale = 0.005
+shader_parameter/max_height_map_val = 200.0
+shader_parameter/water_color = Color(0.0037711407, 0.2002688, 0.8309659, 1)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_jjvhh"]
+render_priority = 0
+next_pass = SubResource("ShaderMaterial_kry3j")
+shader = ExtResource("1_8gbba")
+shader_parameter/height_map_size = Vector2(0, 0)
+shader_parameter/height_map_scale = 1.0
+shader_parameter/sample_dist_multiplyer = 2.43300011230762
+shader_parameter/max_height_map_val = 200.0
+shader_parameter/low_terrain_color = Color(0.8690232, 0.8786976, 0, 1)
+shader_parameter/high_terrain_color = Color(1, 0.22352941, 0, 1)
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_bo1nx"]
+material = SubResource("ShaderMaterial_jjvhh")
 subdivide_width = 2000
 subdivide_depth = 2000
 
@@ -10,6 +33,15 @@ subdivide_depth = 2000
 
 [node name="Terrain" type="MeshInstance3D" parent="."]
 mesh = SubResource("PlaneMesh_bo1nx")
+script = ExtResource("1_bo1nx")
+rain_rate = 0.032
+evaporation_rate = 2404.453
 
 [node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 1)
 script = ExtResource("1_jjgbg")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(0.70710677, -0.61237246, 0.35355335, 0, 0.49999997, 0.86602545, -0.70710677, -0.61237246, 0.35355335, 0, 0, 0)
+shadow_enabled = true
+directional_shadow_mode = 0
