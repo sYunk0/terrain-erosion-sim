@@ -2,7 +2,7 @@
 #version 450
 
 /**
- * A hydralic and thermal erosion simulator for the GPU based on the work from Balazs Jako in "Fast Hydraulic and Thermal Erosion on the GPU"
+ * A hydraulic and thermal erosion simulator for the GPU based on the work from Balazs Jako in "Fast Hydraulic and Thermal Erosion on the GPU"
  * https://old.cescg.org/CESCG-2011/papers/TUBudapest-Jako-Balazs.pdf
  *
  */
